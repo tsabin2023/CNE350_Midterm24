@@ -1,3 +1,7 @@
+# Tyler Sabin
+# CNE350 Midterm Spring Quarter 2024
+# 5/10/2024
+
 #Restful interface that has search and update options for navigating a Zip code database on Phpmyadmin.
 
 
@@ -6,7 +10,7 @@
 #https://stackoverflow.com/questions/1081750/python-update-multiple-columns-with-python-variables
 #https://stackoverflow.com/questions/7478366/create-dynamic-urls-in-flask-with-url-for
 #https://github.com/vimalloc/flask-jwt-extended/issues/175
-
+# forked from https://github.com/ellisju37073/States and modified by Tyler Sabin
 
 from mysql import connector
 from flask import Flask, redirect, url_for, request, render_template
@@ -16,7 +20,7 @@ app = Flask(__name__, static_url_path='')
 #connect to database
 conn = mysql.connector.connect(user='root', password='',
                                   host='127.0.0.1',
-                                  database='states',
+                                  database='zipcodes',
                                buffered = True)
 cursor = conn.cursor()
 
