@@ -1,6 +1,6 @@
 # Tyler Sabin
 # CNE350 Midterm Spring Quarter 2024
-# 5/10/2024
+# 5/11/2024
 
 #Restful interface that has search and update options for navigating a Zip code database on Phpmyadmin.
 
@@ -28,7 +28,7 @@ cursor = conn.cursor()
 @app.route('/searchZIP/<searchZip>')
 def searchzip(searchZip):
     # Get data from database
-    cursor.execute("SELECT * FROM `zipcodes` WHERE Zip=%s", [searchZip])
+    cursor.execute("SELECT * FROM `zipcodes` WHERE zip = %s", [searchZip])
     test = cursor.rowcount
     if test != 1:
         return searchZip + " was not found"
@@ -39,25 +39,25 @@ def searchzip(searchZip):
 #update state database population for a specified state
 @app.route('/updateszippop/<updateZIP> <updatePOP>')
 def updateszippop(updateZIP, updatePOP):
-    cursor.execute("SELECT * FROM `states` WHERE State=%s", [updateZIP])
+    cursor.execute("SELECT * FROM `zipcodes` WHERE zip = %s", [updateZIP])
     test = cursor.rowcount
     if test != 1:
         return updateZIP + " was not found"
     else:
-        cursor.execute("UPDATE `states` SET Pop = %s WHERE State= %s;", [updatePOP,updateZIP])
-        cursor.execute("SELECT * FROM `states` WHERE State=%s and Pop=%s", [updateZIP,updatePOP])
+        cursor.execute("UPDATE `zipcodes` SET Population = %s WHERE zip = %s;", [updatePOP,updateZIP])
+        cursor.execute("SELECT * FROM `zipcodes` WHERE zip = %s and Population = %s", [updateZIP,updatePOP])
         test1 = cursor.rowcount
         if test1 != 1:
             return updateZIP + "  failed to update"
         else:
-            return 'Population has been updated successfully for State: %s' % updateZIP
+            return 'Population has been updated successfully for Zip: %s' % updateZIP
 
 #update webpage
 @app.route('/update',methods = ['POST'])
 def update():
        user = request.form['uzip']
        user2 = request.form['upop']
-       return redirect(url_for('updatezippop', updateZIP=user, updatePOP=user2))
+       return redirect(url_for('updateszippop', updateZIP=user, updatePOP=user2))
 
 #search page
 @app.route('/search', methods=['GET'])
