@@ -11,6 +11,7 @@
 #https://stackoverflow.com/questions/7478366/create-dynamic-urls-in-flask-with-url-for
 #https://github.com/vimalloc/flask-jwt-extended/issues/175
 # forked from https://github.com/ellisju37073/States and modified by Tyler Sabin
+# source Brian Huang
 
 from mysql import connector
 from flask import Flask, redirect, url_for, request, render_template
@@ -36,7 +37,7 @@ def searchzip(searchZip):
         searched = cursor.fetchall()
         return 'Success! Here you go: %s' % searched
 
-#update state database population for a specified state
+#update zip database population for a specified state
 @app.route('/updateszippop/<updateZIP> <updatePOP>')
 def updateszippop(updateZIP, updatePOP):
     cursor.execute("SELECT * FROM `zipcodes` WHERE zip = %s", [updateZIP])
@@ -60,7 +61,7 @@ def update():
        return redirect(url_for('updateszippop', updateZIP=user, updatePOP=user2))
 
 #search page
-@app.route('/search', methods=['GET'])
+@app.route('/search', methods = ['GET'])
 def search():
        user = request.args.get('zzip')
        return redirect(url_for('searchzip', searchZip=user))
